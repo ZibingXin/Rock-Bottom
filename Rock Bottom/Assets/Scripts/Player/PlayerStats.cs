@@ -3,15 +3,21 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     //Oil
-    [SerializeField] private float currentOil = 100;
-    [SerializeField] private float maxOil = 100;
+    [SerializeField] private float currentOil = 100; //current amount of oil
+    [SerializeField] private float maxOil = 100; //maximum amount of oil
 
     //Movement
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 5f; //Affects how fast the player moves and how quickly they can dig
     [SerializeField] private float digStrength = 1f; //When Player Controller consumes oil it will divide by this value
 
     //Money
-    [SerializeField] private int currentMoney = 0;
+    [SerializeField] private int currentMoney = 0; //current amount of money
+
+    public float CurrentOil { get { return currentOil; } }
+    public float MaxOil { get { return maxOil; } }
+    public float MoveSpeed { get { return moveSpeed; } }
+    public float DigStrength { get { return digStrength; } }
+    public int CurrentMoney { get { return currentMoney; } }
 
     public static PlayerStats Instance;
 
