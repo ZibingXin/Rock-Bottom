@@ -42,4 +42,10 @@ public class GridToTilemap : MonoBehaviour
             _ => null,
         };
     }
+
+    [ContextMenu("Clear Tilemap")]
+    public void Clear()
+    {
+        tilemap.ClearAllTiles();
+    }
 }

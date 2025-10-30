@@ -9,22 +9,21 @@ using UnityEngine.Rendering.Universal;
  * - Five block types: Dirt / Rock / Iron / Gold / Oil
  * - Supports: Durability, mining events, drop/refuel, rare light effects (Prefab, optional URP 2D Light or emitting Sprite)
  * - Usage: Create one ScriptableObject resource per resource type (Create > Tiles > ResourceTile),
- *         Use within the Tile Palette; Call HandleHit() via Drill logic at runtime.
+ *         Use within the Tile Palette; Call HandleDig() via Drill logic at runtime.
 */
 
-public enum ResourceKind { Dirt, Rock, Iron, Gold, Oil }
+public enum ResourceType { Dirt, Rock, Iron, Gold, Oil }
 
 [CreateAssetMenu(menuName = "Tiles/ResourceTile", fileName = "ResourceTile")]
 public class ResourceTile : TileBase
 {
     [Header("Appearance and Data")]
-    public ResourceKind kind;
+    public ResourceType type;
+    public bool IsDiggable => type != ResourceType.Rock;
     public Sprite sprite;
-    [Tooltip("Dig away the required durability. Rock can yield higher values.")]
-    public int durability = 1;
 
-    [Header("Resource Effect (Takes effect upon completion of mining)")]
-    public int oilDeltaOnMined = 0; // Oil may be set to +10, with standard blocks configured to be consumed during drilling calculations.
+    [Header("Resource Effect")]
+    public int oilDeltaOnMined = 0;
     public int scoreOnMined = 0;
 
     [Header("Feedback (optional)")]
@@ -44,15 +43,14 @@ public class ResourceTile : TileBase
     }
 
     // ！！ Runtime: Invoked by external interactive scripts during excavation ！！
-    public void HandleHit(Vector3Int cell, Tilemap tilemap, DrillContext ctx)
+    public void HandleDig(Vector3Int cell, Tilemap tilemap, DrillContext ctx)
     {
-        int trueCost = ctx.GetCostFor(kind); // Consumption introduced from external sources into different blocks
-        ctx.ModOil(-trueCost);
-        ctx.PlayOneShot(mineSfx);
-
-        durability -= Mathf.Max(1, ctx.damagePerHit);
-        if (durability <= 0)
+        if (IsDiggable)
         {
+            int trueCost = ctx.GetCostFor(type); // Consumption introduced from external sources into different blocks
+            ctx.ModOil(-trueCost);
+            ctx.PlayOneShot(mineSfx);
+
             // Drop/Settlement
             if (oilDeltaOnMined != 0) ctx.ModOil(oilDeltaOnMined);
             if (scoreOnMined > 0) ctx.AddScore(scoreOnMined);
@@ -66,37 +64,11 @@ public class ResourceTile : TileBase
 
             // Remove Tile (or replace with Dirt, etc.)
             tilemap.SetTile(cell, null);
-            ctx.RaiseMined(kind, cell);
-        }
-        else
-        {
-            ctx.RaiseHit(kind, cell, durability);
+            ctx.RaiseMined(type, cell);
         }
     }
 }
 
-// ！！ Interaction context: Provided by the drill rig/player script ！！
-[Serializable]
-public class DrillCostsConfig
-{
-    public int dirt = 1;
-    public int rock = 10;
-    public int iron = 3;
-    public int gold = 6;
-    public int oilGain = 10; // Oil's positive response
 
-    public int CostFor(ResourceKind k)
-    {
-        switch (k)
-        {
-            case ResourceKind.Dirt: return dirt;
-            case ResourceKind.Rock: return rock;
-            case ResourceKind.Iron: return iron;
-            case ResourceKind.Gold: return gold;
-            case ResourceKind.Oil: return -oilGain; // Negative values indicate refuelling.
-            default: return 1;
-        }
-    }
-}
 
 

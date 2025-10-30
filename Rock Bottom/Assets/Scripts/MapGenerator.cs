@@ -79,7 +79,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     [ContextMenu("Generate Now")]
-    public void GenerateNow()
+    public void GenerateNow(int seed = 12345)
     {
         grid = Generate(seed, strata, width, height);
     }

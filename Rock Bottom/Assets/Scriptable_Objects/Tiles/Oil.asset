@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6e7e8c4390d3b428a737aa79bbdd2a, type: 3}
   m_Name: Oil
   m_EditorClassIdentifier: 
-  kind: 4
+  type: 4
   sprite: {fileID: 1898007233, guid: 08ad2cc2a3bc1d344b6e2705ca015b37, type: 3}
-  durability: 1
   oilDeltaOnMined: 0
-  scoreOnMined: 0
+  scoreOnMined: 10
   mineSfx: {fileID: 0}
   mineVfxPrefab: {fileID: 0}
   glowPrefab: {fileID: 0}
