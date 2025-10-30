@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      OreVein_0: 1362495542714273127
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
