@@ -1,74 +1,159 @@
-using System.Threading;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.WSA;
+using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+//using UnityEngine.WSA;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject drill;
-    [SerializeField] private float offset = 5f;
+    [Header("References")]
+    public Tilemap tilemap;
+    public InputActionReference digDownAction;
+    public InputActionReference digRightAction;
+    public InputActionReference digLeftAction;
 
-    private InputSystem_Actions inputActions;
-    private Vector2 moveInput;
+    [Header("Movement")]
+    public float moveTime = 0.1f;
+    public bool autoEnterMind = true;
+
+    [Header("Hold Repeat")]
+    public bool holdToRepeat = true;
+    public float initialDelay = 0.25f;
+    public float repeatRate = 0.1f;
+
+    [Header("Drill Settings")]
+    public DrillCostsConfig costs;
+    public DrillWorthConfig worth;
+    public int startOil = 100;
+
+
+    private Vector3Int currentCell;
+    private bool isMoving = false;
+    private Coroutine repeatCo;
+    private AudioSource sfx;
+    private PlayerStats playerStats;
+    private TilemapDrillInteractor drillInteractor;
+
 
     private void Awake()
     {
-        inputActions = new InputSystem_Actions();
-        inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+        // audio source
+        // sfx = GetComponent<AudioSource>();
+        playerStats = GetComponent<PlayerStats>();
+        drillInteractor = GetComponent<TilemapDrillInteractor>();
+        costs = drillInteractor.costs;
+        worth = drillInteractor.worth;
     }
 
     private void OnEnable()
     {
-        inputActions.Enable();
+        digDownAction.action.performed += OnDigDownPerformed;
+        digRightAction.action.performed += OnDigRightPerformed;
+        digLeftAction.action.performed += OnDigLeftPerformed;
+
+        if (holdToRepeat)
+        {
+            digDownAction.action.canceled += OnActionCanceled;
+            digRightAction.action.canceled += OnActionCanceled;
+            digLeftAction.action.canceled += OnActionCanceled;
+        }
+
+        digDownAction.action.Enable();
+        digRightAction.action.Enable();
+        digLeftAction.action.Enable();
+
+        currentCell = tilemap.WorldToCell(transform.position);
+        Snap(currentCell);
     }
 
     private void OnDisable()
     {
-        inputActions.Disable();
+        StopRepeat();
+        digDownAction.action.performed -= OnDigDownPerformed;
+        digRightAction.action.performed -= OnDigRightPerformed;
+        digLeftAction.action.performed -= OnDigLeftPerformed;
+        digDownAction.action.canceled -= OnActionCanceled;
+        digRightAction.action.canceled -= OnActionCanceled;
+        digLeftAction.action.canceled -= OnActionCanceled;
     }
 
-    private void Update()
+    void OnDigDownPerformed(InputAction.CallbackContext context) => Step(Vector3Int.down, true);
+    void OnDigRightPerformed(InputAction.CallbackContext context) => Step(Vector3Int.right, true);
+    void OnDigLeftPerformed(InputAction.CallbackContext context) => Step(Vector3Int.left, true);
+    void OnActionCanceled(InputAction.CallbackContext context) => StopRepeat();
+
+    private void Step(Vector3Int dir, bool fromInput)
     {
-        Move();
+        if (isMoving) return;
+
+        Vector3Int target = currentCell + dir;
+
+        var tile = tilemap.GetTile(target);
+        if (tile is ResourceTile resourceTile && resourceTile.IsDiggable)
+        {
+            Debug.Log($"{costs.CostFor(resourceTile.type)}");
+
+            if (playerStats.CurrentOil < costs.CostFor(resourceTile.type) && resourceTile.type != ResourceType.Oil)
+            {
+                Debug.Log($"Not enough oil to dig! {playerStats.CurrentOil} < {costs.CostFor(resourceTile.type)}");
+                return;
+            }
+            resourceTile.HandleDig(target, tilemap, drillInteractor.GetContext());
+            if (autoEnterMind)
+            { 
+                StartCoroutine(MoveToCell(target)); 
+            }
+        }
+        else if (tile == null)
+        {
+            StartCoroutine(MoveToCell(target)); 
+        }
+
+        if (fromInput && holdToRepeat)
+        {
+            StopRepeat();
+            repeatCo = StartCoroutine(Repeat(dir));
+        }
     }
 
-    public void Move()
+    IEnumerator Repeat(Vector3Int dir)
     {
-        float moveSpeed = PlayerStats.Instance.MoveSpeed;
-        Vector3 movement = Vector3.zero;
-
-        // Only allow horizontal or downward movement, one direction at a time
-        if (moveInput.x > 0.1f)
+        yield return new WaitForSeconds(initialDelay);
+        while (true)
         {
-            movement = Vector3.right;
-            ActivateDrill(Vector3.right);
+            Step(dir, false);
+            yield return new WaitForSeconds(repeatRate);
         }
-        else if (moveInput.x < -0.1f)
-        {
-            movement = Vector3.left;
-            ActivateDrill(Vector3.left);
-        }
-        else if (moveInput.y < -0.1f)
-        {
-            movement = Vector3.down;
-            ActivateDrill(Vector3.down);
-        }
-        else
-        {
-            DeactivateDrill();
-        }
-
-        transform.position += movement * moveSpeed * Time.deltaTime;
     }
 
-    private void ActivateDrill(Vector3 direction)
+    void StopRepeat()
     {
-        drill.SetActive(true);
-        drill.transform.position = transform.position + direction.normalized * offset;
+        if (repeatCo != null)
+        {
+            StopCoroutine(repeatCo);
+            repeatCo = null;
+        }
     }
 
-    private void DeactivateDrill()
+    IEnumerator MoveToCell(Vector3Int targetCell)
     {
-        drill.SetActive(false);
+        isMoving = true;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = tilemap.GetCellCenterWorld(targetCell);
+        float elapsed = 0f;
+        while (elapsed < 1f)
+        {
+            elapsed += Time.deltaTime / Mathf.Max(0.0001f, moveTime);
+            transform.position = Vector3.Lerp(startPos, targetPos, Mathf.SmoothStep(0, 1, elapsed));
+            yield return null;
+        }
+        currentCell = targetCell;
+        Snap(currentCell);
+        isMoving = false;
+    }
+
+    void Snap(Vector3Int cell)
+    {
+        transform.position = tilemap.GetCellCenterWorld(cell);
     }
 }

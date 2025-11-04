@@ -21,9 +21,9 @@ public class ResourceTile : TileBase
     public bool IsDiggable => type != ResourceType.Rock;
     public Sprite sprite;
 
-    [Header("Resource Effect")]
-    public int oilDeltaOnMined = 0;
-    public int scoreOnMined = 0;
+    //[Header("Resource Effect")]
+    //public int oilDeltaOnMined = 0;
+    //public int moneyOnMined = 0;
 
     [Header("Feedback (optional)")]
     public AudioClip mineSfx;
@@ -46,13 +46,7 @@ public class ResourceTile : TileBase
     {
         if (IsDiggable)
         {
-            int trueCost = ctx.GetCostFor(type); // Consumption introduced from external sources into different blocks
-            ctx.ModOil(-trueCost);
-            ctx.PlayOneShot(mineSfx);
-
-            // Drop/Settlement
-            if (oilDeltaOnMined != 0) ctx.ModOil(oilDeltaOnMined);
-            if (scoreOnMined > 0) ctx.AddScore(scoreOnMined);
+            //ctx.PlayOneShot(mineSfx);
 
             // VFX
             if (mineVfxPrefab)
