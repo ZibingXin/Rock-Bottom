@@ -13,11 +13,21 @@ public class PlayerStats : MonoBehaviour
     //Money
     [SerializeField] private int currentMoney = 0; //current amount of money
 
+    //upgrade UI
+    [SerializeField] public GameObject gameOverScreen;
+    [SerializeField] private int maxOilLv = 1;
+    [SerializeField] private int moveSpeedLv = 1;
+    [SerializeField] private int digStrengthLv = 1;
+
     public float CurrentOil { get { return currentOil; } }
     public float MaxOil { get { return maxOil; } }
     public float MoveSpeed { get { return moveSpeed; } }
     public float DigStrength { get { return digStrength; } }
     public int CurrentMoney { get { return currentMoney; } }
+
+    public int MaxOilLv { get { return maxOilLv; } }
+    public int MoveSpeedLv { get { return moveSpeedLv; } }
+    public int DigStrengthLv { get { return digStrengthLv; } }
 
     public static PlayerStats Instance;
 
@@ -25,6 +35,9 @@ public class PlayerStats : MonoBehaviour
     {
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
+
+        currentMoney = 0;
+        currentOil = maxOil;
     }
 
     public void BurnOil(float amount)
@@ -59,23 +72,26 @@ public class PlayerStats : MonoBehaviour
     public void UpgradeOil()
     {
         //Increase max oil
-        //maxOil += 20;
+        maxOil += 20;
+        maxOilLv += 1;
     }
 
     public void UpgradeMoveSpeed()
     {
         //Increase move speed
-        //moveSpeed += 1f;
+        moveSpeed += 1f;
+        moveSpeedLv += 1;
     }
 
     public void UpgradeDigStrength()
     {
         //Increase dig strength
-        //digStrength += 0.5f;
+        digStrength += 0.5f;
+        digStrengthLv += 1;
     }
 
     public void GameOver()
     {
-
+        gameOverScreen.SetActive(true);
     }
 }
