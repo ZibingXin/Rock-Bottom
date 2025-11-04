@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class OilBlock : BlockBase
 {
-    [SerializeField] private float oilAmount = 20f;
+    [SerializeField] private int oilAmount = 20;
     public override void Dig()
     {
         isUsed = true;

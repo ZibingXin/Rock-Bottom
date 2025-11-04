@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     //Oil
-    [SerializeField] private float currentOil = 100; //current amount of oil
-    [SerializeField] private float maxOil = 100; //maximum amount of oil
+    [SerializeField] private int currentOil = 100; //current amount of oil
+    [SerializeField] private int maxOil = 100; //maximum amount of oil
 
     //Movement
     [SerializeField] private float moveSpeed = 5f; //Affects how fast the player moves and how quickly they can dig
@@ -13,8 +13,8 @@ public class PlayerStats : MonoBehaviour
     //Money
     [SerializeField] private int currentMoney = 0; //current amount of money
 
-    public float CurrentOil { get { return currentOil; } }
-    public float MaxOil { get { return maxOil; } }
+    public int CurrentOil { get { return currentOil; } }
+    public int MaxOil { get { return maxOil; } }
     public float MoveSpeed { get { return moveSpeed; } }
     public float DigStrength { get { return digStrength; } }
     public int CurrentMoney { get { return currentMoney; } }
@@ -27,7 +27,7 @@ public class PlayerStats : MonoBehaviour
         else { Destroy(gameObject); }
     }
 
-    public void BurnOil(float amount)
+    public void BurnOil(int amount)
     {
         currentOil -= amount;
         if (currentOil < 0)
@@ -37,9 +37,13 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("Oil remaining: " + currentOil);
     }
 
-    public void RefillOil(float amount)
+    public void RefillOil(int amount)
     {
         currentOil += amount;
+        if (currentOil > maxOil)
+        {
+            currentOil = maxOil;
+        }
         Debug.Log("Oil refilled. Current oil: " + currentOil);
     }
 

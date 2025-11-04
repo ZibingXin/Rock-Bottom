@@ -4,7 +4,7 @@ public abstract class BlockBase : MonoBehaviour
 {
     protected bool isUsed = false;
     protected int depth;
-    protected float priceToDig;
+    protected int priceToDig;
 
     public abstract void Dig();
 }

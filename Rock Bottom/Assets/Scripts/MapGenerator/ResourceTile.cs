@@ -52,7 +52,7 @@ public class ResourceTile : TileBase
 
             // Drop/Settlement
             if (oilDeltaOnMined != 0) ctx.ModOil(oilDeltaOnMined);
-            if (scoreOnMined > 0) ctx.AddScore(scoreOnMined);
+            if (scoreOnMined > 0) ctx.AddMoney(scoreOnMined);
 
             // VFX
             if (mineVfxPrefab)
