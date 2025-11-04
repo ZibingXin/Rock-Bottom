@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6e7e8c4390d3b428a737aa79bbdd2a, type: 3}
+  m_Name: Gold
+  m_EditorClassIdentifier: 
+  type: 3
+  sprite: {fileID: 1126099537, guid: 08ad2cc2a3bc1d344b6e2705ca015b37, type: 3}
+  oilDeltaOnMined: 0
+  scoreOnMined: 300
+  mineSfx: {fileID: 0}
+  mineVfxPrefab: {fileID: 0}
+  glowPrefab: {fileID: 0}
