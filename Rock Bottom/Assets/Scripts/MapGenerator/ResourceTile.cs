@@ -12,7 +12,6 @@ using UnityEngine.Rendering.Universal;
  *         Use within the Tile Palette; Call HandleDig() via Drill logic at runtime.
 */
 
-public enum ResourceType { Dirt, Rock, Iron, Gold, Oil }
 
 [CreateAssetMenu(menuName = "Tiles/ResourceTile", fileName = "ResourceTile")]
 public class ResourceTile : TileBase

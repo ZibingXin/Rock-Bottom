@@ -19,7 +19,7 @@ public class GamaManager : MonoBehaviour
     private void StartNewGame()
     {
         int seed = Random.Range(0, int.MaxValue);
-        mapGenerator.GenerateNow(seed);
+        mapGenerator.GenerateNow();
         gridToTilemap.Back();
     }
 
