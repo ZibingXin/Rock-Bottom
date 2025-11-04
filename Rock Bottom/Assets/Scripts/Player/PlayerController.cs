@@ -1,100 +1,159 @@
-using System.Threading;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.WSA;
+using UnityEngine.Tilemaps;
+//using UnityEngine.WSA;
 
 public class PlayerController : MonoBehaviour
 {
-    //[SerializeField] private GameObject drill;
-    [SerializeField] private float offset = 1f;
+    [Header("References")]
+    public Tilemap tilemap;
+    public InputActionReference digDownAction;
+    public InputActionReference digRightAction;
+    public InputActionReference digLeftAction;
 
-    [SerializeField] private Vector3Int downDrillDirection;
-    [SerializeField] private Vector3Int rightDrillDirection;
-    [SerializeField] private Vector3Int leftDrillDirection;
+    [Header("Movement")]
+    public float moveTime = 0.1f;
+    public bool autoEnterMind = true;
 
-    [SerializeField]private TilemapDrillInteractor tdi;
-    //private InputSystem_Actions inputActions;
-    //private Vector2 moveInput;
+    [Header("Hold Repeat")]
+    public bool holdToRepeat = true;
+    public float initialDelay = 0.25f;
+    public float repeatRate = 0.1f;
 
-    //private void Awake()
-    //{
-    //    inputActions = new InputSystem_Actions();
-    //    inputActions.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-    //    inputActions.Player.Move.canceled += ctx => moveInput = Vector2.zero;
-    //}
+    [Header("Drill Settings")]
+    public DrillCostsConfig costs;
+    public DrillWorthConfig worth;
+    public int startOil = 100;
 
-    //private void OnEnable()
-    //{
-    //    inputActions.Enable();
-    //}
 
-    //private void OnDisable()
-    //{
-    //    inputActions.Disable();
-    //}
+    private Vector3Int currentCell;
+    private bool isMoving = false;
+    private Coroutine repeatCo;
+    private AudioSource sfx;
+    private PlayerStats playerStats;
+    private TilemapDrillInteractor drillInteractor;
 
-    private void Update()
+
+    private void Awake()
     {
-        // find the tile in the direction of the drill
-        downDrillDirection = Vector3Int.FloorToInt(transform.position + Vector3.down * offset);
-        rightDrillDirection = Vector3Int.FloorToInt(transform.position + Vector3.right * offset);
-        leftDrillDirection = Vector3Int.FloorToInt(transform.position + Vector3.left * offset);
+        // audio source
+        // sfx = GetComponent<AudioSource>();
+        playerStats = GetComponent<PlayerStats>();
+        drillInteractor = GetComponent<TilemapDrillInteractor>();
+        costs = drillInteractor.costs;
+        worth = drillInteractor.worth;
     }
 
-    private void OnDrawGizmos()
+    private void OnEnable()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(downDrillDirection, 0.2f);
-        Gizmos.DrawSphere(rightDrillDirection, 0.2f);
-        Gizmos.DrawSphere(leftDrillDirection, 0.2f);
-    }
+        digDownAction.action.performed += OnDigDownPerformed;
+        digRightAction.action.performed += OnDigRightPerformed;
+        digLeftAction.action.performed += OnDigLeftPerformed;
 
-    //public void Move()
-    //{
-    //    float moveSpeed = PlayerStats.Instance.MoveSpeed;
-    //    Vector3 movement = Vector3.zero;
-
-    //    // Only allow horizontal or downward movement, one direction at a time
-    //    if (moveInput.x > 0.1f)
-    //    {
-    //        movement = Vector3.right;
-    //        ActivateDrill(Vector3.right);
-    //    }
-    //    else if (moveInput.x < -0.1f)
-    //    {
-    //        movement = Vector3.left;
-    //        ActivateDrill(Vector3.left);
-    //    }
-    //    else if (moveInput.y < -0.1f)
-    //    {
-    //        movement = Vector3.down;
-    //        ActivateDrill(Vector3.down);
-    //    }
-    //    else
-    //    {
-    //        DeactivateDrill();
-    //    }
-
-    //    transform.position += movement * moveSpeed * Time.deltaTime;
-    //}
-
-    public void OnDigDown(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        if (holdToRepeat)
         {
-            tdi.GetTile();
+            digDownAction.action.canceled += OnActionCanceled;
+            digRightAction.action.canceled += OnActionCanceled;
+            digLeftAction.action.canceled += OnActionCanceled;
         }
 
+        digDownAction.action.Enable();
+        digRightAction.action.Enable();
+        digLeftAction.action.Enable();
+
+        currentCell = tilemap.WorldToCell(transform.position);
+        Snap(currentCell);
     }
 
-    //private void ActivateDrill(Vector3 direction)
-    //{
-    //    drill.SetActive(true);
-    //    drill.transform.position = transform.position + direction.normalized * offset;
-    //}
+    private void OnDisable()
+    {
+        StopRepeat();
+        digDownAction.action.performed -= OnDigDownPerformed;
+        digRightAction.action.performed -= OnDigRightPerformed;
+        digLeftAction.action.performed -= OnDigLeftPerformed;
+        digDownAction.action.canceled -= OnActionCanceled;
+        digRightAction.action.canceled -= OnActionCanceled;
+        digLeftAction.action.canceled -= OnActionCanceled;
+    }
 
-    //private void DeactivateDrill()
-    //{
-    //    drill.SetActive(false);
-    //}
+    void OnDigDownPerformed(InputAction.CallbackContext context) => Step(Vector3Int.down, true);
+    void OnDigRightPerformed(InputAction.CallbackContext context) => Step(Vector3Int.right, true);
+    void OnDigLeftPerformed(InputAction.CallbackContext context) => Step(Vector3Int.left, true);
+    void OnActionCanceled(InputAction.CallbackContext context) => StopRepeat();
+
+    private void Step(Vector3Int dir, bool fromInput)
+    {
+        if (isMoving) return;
+
+        Vector3Int target = currentCell + dir;
+
+        var tile = tilemap.GetTile(target);
+        if (tile is ResourceTile resourceTile && resourceTile.IsDiggable)
+        {
+            Debug.Log($"{costs.CostFor(resourceTile.type)}");
+
+            if (playerStats.CurrentOil < costs.CostFor(resourceTile.type) && resourceTile.type != ResourceType.Oil)
+            {
+                Debug.Log($"Not enough oil to dig! {playerStats.CurrentOil} < {costs.CostFor(resourceTile.type)}");
+                return;
+            }
+            resourceTile.HandleDig(target, tilemap, drillInteractor.GetContext());
+            if (autoEnterMind)
+            { 
+                StartCoroutine(MoveToCell(target)); 
+            }
+        }
+        else if (tile == null)
+        {
+            StartCoroutine(MoveToCell(target)); 
+        }
+
+        if (fromInput && holdToRepeat)
+        {
+            StopRepeat();
+            repeatCo = StartCoroutine(Repeat(dir));
+        }
+    }
+
+    IEnumerator Repeat(Vector3Int dir)
+    {
+        yield return new WaitForSeconds(initialDelay);
+        while (true)
+        {
+            Step(dir, false);
+            yield return new WaitForSeconds(repeatRate);
+        }
+    }
+
+    void StopRepeat()
+    {
+        if (repeatCo != null)
+        {
+            StopCoroutine(repeatCo);
+            repeatCo = null;
+        }
+    }
+
+    IEnumerator MoveToCell(Vector3Int targetCell)
+    {
+        isMoving = true;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = tilemap.GetCellCenterWorld(targetCell);
+        float elapsed = 0f;
+        while (elapsed < 1f)
+        {
+            elapsed += Time.deltaTime / Mathf.Max(0.0001f, moveTime);
+            transform.position = Vector3.Lerp(startPos, targetPos, Mathf.SmoothStep(0, 1, elapsed));
+            yield return null;
+        }
+        currentCell = targetCell;
+        Snap(currentCell);
+        isMoving = false;
+    }
+
+    void Snap(Vector3Int cell)
+    {
+        transform.position = tilemap.GetCellCenterWorld(cell);
+    }
 }

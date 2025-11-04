@@ -9,76 +9,37 @@ public class TilemapDrillInteractor : MonoBehaviour
 
     [Header("Data")]
     public DrillCostsConfig costs = new();
+    public DrillWorthConfig worth = new();
     public PlayerStats playerStats;
 
     private DrillContext ctx;
     private Vector3Int cell;
 
-    void Awake()
+    void Start()
     {
-        ctx = new DrillContext(sfx, playerStats.CurrentOil, costs);
-        ctx.onMined += (t, c) => { 
-            DrillConfirm(t, playerStats.CurrentOil);
-            //Debug.Log($"Mined {t} @ {c}. Oil={ctx.GetOil()}. Score={ctx.GetScore()}"); 
+        ctx = new DrillContext(sfx, playerStats.CurrentOil, costs, worth);
+        ctx.onMined += (t, c) =>
+        {
+            if (t == ResourceType.Oil)
+            {
+                playerStats.RefillOil(costs.oilGain);
+            }
+            else
+            {
+                if (playerStats.CurrentOil < costs.CostFor(t)) return;
+                playerStats.BurnOil(costs.CostFor(t));
+                playerStats.AddMoney(worth.WorthFor(t));
+            }
+            var tileBase = tilemap.GetTile(c) as ResourceTile;
+            if (tileBase != null)
+            {
+                tileBase.HandleDig(c, tilemap, ctx);
+            }
+            Debug.Log($"Step to {t} {c}, Oil: {playerStats.CurrentOil} / 100, Money: {playerStats.CurrentMoney}");
         };
     }
 
-    private void DrillConfirm(ResourceType t, int currentOil)
-    {
-        if (t != ResourceType.Oil)
-        {
-            switch (t)
-            {
-                case ResourceType.Dirt:
-                    if (currentOil < costs.dirt) return;
-                    playerStats.BurnOil(costs.dirt);
-                    
-                    playerStats.AddMoney(1);
-                    break;
-                case ResourceType.Rock:
-                    if (currentOil < costs.rock) return;
-                    playerStats.BurnOil(costs.rock);
-                    break;
-                case ResourceType.Iron:
-                    if (currentOil < costs.iron) return;
-                    playerStats.BurnOil(costs.iron);
-                    break;
-                case ResourceType.Gold:
-                    if (currentOil < costs.gold) return;
-                    playerStats.BurnOil(costs.gold);
-                    break;
-            }  
-        }
-        else if (t == ResourceType.Oil)
-        {
-            playerStats.RefillOil(costs.oilGain);
-        }
-
-        var tileBase = tilemap.GetTile(cell) as ResourceTile;
-        if (tileBase != null)
-        {
-            tileBase.HandleDig(cell, tilemap, ctx);
-        }
-    }
-
-    public void GetTile()
-    {
-
-    }
-
-    void Update()
-    {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    var world = cam.ScreenToWorldPoint(Input.mousePosition);
-        //    Vector3Int cell = tilemap.WorldToCell(world);
-        //    var tileBase = tilemap.GetTile(cell) as ResourceTile;
-        //    if (tileBase != null)
-        //    {
-        //        tileBase.HandleDig(cell, tilemap, ctx);
-        //    }
-        //}
-    }
+    public DrillContext GetContext() => ctx;
 }
 
 public class DrillContext
@@ -89,17 +50,13 @@ public class DrillContext
     private int oil;
     private int money;
     private DrillCostsConfig costs = new();
+    private DrillWorthConfig worth = new();
 
-    public DrillContext(AudioSource sfx, int startOil, DrillCostsConfig costs)
+    public DrillContext(AudioSource sfx, int startOil, DrillCostsConfig costs, DrillWorthConfig worth)
     {
-        this.sfx = sfx; oil = startOil; this.costs = costs;
+        this.sfx = sfx; oil = startOil; this.costs = costs; this.worth = worth;
     }
 
-    public int GetOil() => oil;
-    public int GetScore() => money;
-    public void ModOil(int delta) { oil = Mathf.Max(0, oil + delta); }
-    public void AddMoney(int s) { money += s; }
-    public int GetCostFor(ResourceType t) => costs.CostFor(t);
     public void PlayOneShot(AudioClip clip) { if (clip && sfx) sfx.PlayOneShot(clip); }
     public void RaiseMined(ResourceType t, Vector3Int cell) => onMined?.Invoke(t, cell);
 
@@ -109,22 +66,47 @@ public class DrillContext
 [Serializable]
 public class DrillCostsConfig
 {
-    public int dirt = 2;
-    public int rock = 12;
-    public int iron = 4;
-    public int gold = 8;
+    public int dirt = 1;
+    public int rock = 10;
+    public int iron = 3;
+    public int gold = 6;
     public int oilGain = 10; // Oil's positive response
 
+    public DrillCostsConfig() { }
     public int CostFor(ResourceType k)
     {
-        switch (k)
+        return k switch
         {
-            case ResourceType.Dirt: return dirt;
-            case ResourceType.Rock: return rock;
-            case ResourceType.Iron: return iron;
-            case ResourceType.Gold: return gold;
-            case ResourceType.Oil: return -oilGain; // Negative values indicate refuelling.
-            default: return 1;
-        }
+            ResourceType.Dirt => dirt,
+            ResourceType.Rock => rock,
+            ResourceType.Iron => iron,
+            ResourceType.Gold => gold,
+            ResourceType.Oil => -oilGain,// Negative values indicate refuelling.
+            _ => 1,
+        };
+    }
+}
+
+[Serializable]
+public class DrillWorthConfig
+{
+    public int dirt = 1;
+    public int rock = 0;
+    public int iron = 5;
+    public int gold = 20;
+    public int oil = 0;
+
+    public DrillWorthConfig() { }
+    public int WorthFor(ResourceType k)
+    {
+        return k switch
+        {
+            ResourceType.Dirt => dirt,
+            ResourceType.Rock => rock,
+            ResourceType.Iron => iron,
+            ResourceType.Gold => gold,
+            ResourceType.Oil => oil,
+            _ => 0,
+        };
     }
 }

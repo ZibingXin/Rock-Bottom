@@ -112,7 +112,17 @@ public class MapGenerator : MonoBehaviour
         if (ensureRowNonBlocking)
             EnsureEachRowHasNonRock();
 
-        return grid;
+        // 4) Add two columns of rock on the left and right as boundaries
+        var extendedGrid = new TileType[w + 2, h];
+        for (int y = 0; y < h; y++)
+        {
+            extendedGrid[0, y] = TileType.Rock;
+            extendedGrid[w + 1, y] = TileType.Rock;
+            for (int x = 0; x < w; x++)
+                extendedGrid[x + 1, y] = grid[x, y];
+        }
+
+        return extendedGrid;
     }
 
     // ！！ Utility Functions ！！
