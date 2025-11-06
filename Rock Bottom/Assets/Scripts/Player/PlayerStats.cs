@@ -13,22 +13,26 @@ public class PlayerStats : MonoBehaviour
 
     //Money
     [SerializeField] private int currentMoney = 0; //current amount of money
+    [SerializeField] private int drillWorth = 1; 
 
     //upgrade UI
     [SerializeField] public GameObject gameOverScreen;
     [SerializeField] private int maxOilLv = 1;
     [SerializeField] private int moveSpeedLv = 1;
     [SerializeField] private int digStrengthLv = 1;
+    [SerializeField] private int drillWorthLv = 1;
 
     public float CurrentOil { get { return currentOil; } }
     public float MaxOil { get { return maxOil; } }
     public float MoveSpeed { get { return moveSpeed; } }
     public float DigStrength { get { return digStrength; } }
     public int CurrentMoney { get { return currentMoney; } }
+    public int DrillWorth { get { return drillWorth; } }
 
     public int MaxOilLv { get { return maxOilLv; } }
     public int MoveSpeedLv { get { return moveSpeedLv; } }
     public int DigStrengthLv { get { return digStrengthLv; } }
+    public int DrillWorthLv { get { return drillWorthLv; } }
 
     public static PlayerStats Instance;
 
