@@ -4,6 +4,7 @@ public class Upgrade : MonoBehaviour
 {
     public PlayerStats playerStats;
     public UpgradeUI upgradeUI;
+    public DrillWorthConfig drillWorthConfig;
 
     private int cost;
 
@@ -30,7 +31,7 @@ public class Upgrade : MonoBehaviour
         {
             Debug.Log("Not enough money to upgrade Max Oil.");
         }
-    }
+    }    
 
     public void UpgradeMoveSpeed()
     {
@@ -59,6 +60,37 @@ public class Upgrade : MonoBehaviour
         else
         {
             Debug.Log("Not enough money to upgrade Dig Strength.");
+        }
+    }
+
+    public void UpgradeDrillWorth()
+    {
+        cost=CalculateCost(playerStats.DrillWorthLv);
+        if (playerStats.CurrentMoney >= cost)
+        {
+            playerStats.ReduceMoney(cost);
+            //drillWorthConfig.UpdateDrillWorth();
+            //upgradeUI.UpdateUpgradeUI();
+        }
+        else
+        {
+            Debug.Log("Not enough money to upgrade Drill Worth.");
+        }
+    }
+
+    public int GetUpgradeCost(string upgradeType)
+    {
+        switch (upgradeType)
+        {
+            case "MaxOil":
+                return CalculateCost(playerStats.MaxOilLv);
+            case "MoveSpeed":
+                return CalculateCost(playerStats.MoveSpeedLv);
+            case "DigStrength":
+                return CalculateCost(playerStats.DigStrengthLv);
+            default:
+                Debug.LogError("Invalid upgrade type: " + upgradeType);
+                return 0;
         }
     }
 }
