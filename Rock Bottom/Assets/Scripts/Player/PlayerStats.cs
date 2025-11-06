@@ -1,3 +1,4 @@
+using UnityEditor.ShortcutManagement;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -37,6 +38,11 @@ public class PlayerStats : MonoBehaviour
         else { Destroy(gameObject); }
 
         currentMoney = 0;
+        ResetPlayer();
+    }
+
+    public void ResetPlayer()
+    {
         currentOil = maxOil;
     }
 

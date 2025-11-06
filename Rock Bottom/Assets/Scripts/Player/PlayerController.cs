@@ -84,6 +84,12 @@ public class PlayerController : MonoBehaviour
         digLeftAction.action.canceled -= OnActionCanceled;
     }
 
+    public void Reset()
+    {
+        currentCell = tilemap.WorldToCell(new Vector3(1.5f, 2, 0));
+        Snap(currentCell);
+    }
+
     void OnDigDownPerformed(InputAction.CallbackContext context) => Step(Vector3Int.down, true);
     void OnDigRightPerformed(InputAction.CallbackContext context) => Step(Vector3Int.right, true);
     void OnDigLeftPerformed(InputAction.CallbackContext context) => Step(Vector3Int.left, true);

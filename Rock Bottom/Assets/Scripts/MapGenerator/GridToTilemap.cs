@@ -11,6 +11,8 @@ public class GridToTilemap : MonoBehaviour
     [ContextMenu("Convert Grid to Tilemap")]
     public void Back()
     {
+        Clear();
+
         var grid = mapGenerator.Grid;
         if (grid == null)
         {

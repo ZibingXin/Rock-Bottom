@@ -2,16 +2,24 @@ using UnityEngine;
 
 public class GamaManager : MonoBehaviour
 {
+    private PlayerController playerController;
     private MapGenerator mapGenerator;
     private GridToTilemap gridToTilemap;
+    private PlayerStats playerStats;
+    private ScoreManager scoreManager;
     private TileType[,] grid;
 
 
 
     void Start()
     {
+        playerController = FindAnyObjectByType<PlayerController>();
+
         mapGenerator = FindAnyObjectByType<MapGenerator>();
         gridToTilemap = FindAnyObjectByType<GridToTilemap>();
+
+        playerStats = FindAnyObjectByType<PlayerStats>();
+        scoreManager = FindAnyObjectByType<ScoreManager>();
 
         StartNewGame();
     }
@@ -19,10 +27,24 @@ public class GamaManager : MonoBehaviour
     private void StartNewGame()
     {
         int seed = Random.Range(0, int.MaxValue);
-        mapGenerator.GenerateNow();
+        mapGenerator.GenerateNow(seed);
         gridToTilemap.Back();
     }
 
+    public void RestartGame()
+    {
+        // reset player
+        playerController.Reset();
+
+        // regenerate map
+        int seed = Random.Range(0, int.MaxValue);
+        mapGenerator.GenerateNow(seed);
+        gridToTilemap.Back();
+
+        //reset UI
+        playerStats.ResetPlayer();
+        scoreManager.UpdateStatus();
+    }
 
 
 }

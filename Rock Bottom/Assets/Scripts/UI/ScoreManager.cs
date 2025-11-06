@@ -1,3 +1,4 @@
+using System.Data;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +16,11 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text digStrengthLvText;
 
     private void Start()
+    {
+        UpdateStatus();
+    }
+
+    public void UpdateStatus()
     {
         maxOilLvText.text = "Max Oil: Lv. " + playerStats.MaxOilLv.ToString();
         moveSpeedLvText.text = "Speed: Lv. " + playerStats.MoveSpeedLv.ToString();
