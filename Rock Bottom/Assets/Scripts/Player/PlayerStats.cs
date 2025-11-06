@@ -40,12 +40,18 @@ public class PlayerStats : MonoBehaviour
         currentOil = maxOil;
     }
 
+    public float FinalOilCost(float baseCost)
+    {
+        return Mathf.Clamp(baseCost - digStrength, 1, baseCost);
+    }
+
     public void BurnOil(float amount)
     {
-        currentOil -= amount;
-        if (currentOil < 0)
+        currentOil -= FinalOilCost(amount);
+        if (currentOil <= 0)
         {
             currentOil = 0;
+            GameOver();
         }
         Debug.Log("Oil remaining: " + currentOil);
     }

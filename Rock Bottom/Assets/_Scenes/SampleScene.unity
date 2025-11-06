@@ -186,8 +186,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Max Oil
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -295,8 +295,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Strength
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -808,8 +808,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Speed
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1084,8 +1084,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b3094f766a05ff4aa7c54ec8cb19f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  drill: {fileID: 1569561447}
-  offset: 5
+  tilemap: {fileID: 0}
+  digDownAction: {fileID: 0}
+  digRightAction: {fileID: 0}
+  digLeftAction: {fileID: 0}
+  moveTime: 0.1
+  autoEnterMind: 1
+  holdToRepeat: 1
+  initialDelay: 0.25
+  repeatRate: 0.1
+  costs:
+    dirt: 1
+    rock: 10
+    iron: 3
+    gold: 6
+    oilGain: 10
+  worth:
+    dirt: 1
+    rock: 0
+    iron: 5
+    gold: 20
+    oil: 0
+  startOil: 100
 --- !u!114 &1569561450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f33b7f7f872fed4f8238206a09129dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Drill
-  baseDigTime: 5
 --- !u!4 &1569561451
 Transform:
   m_ObjectHideFlags: 0
@@ -1284,8 +1303,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Oil
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1494,8 +1513,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Money
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

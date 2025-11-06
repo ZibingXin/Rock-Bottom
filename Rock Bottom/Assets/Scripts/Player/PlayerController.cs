@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private PlayerStats playerStats;
     private TilemapDrillInteractor drillInteractor;
 
+    public Camera playerCamera;
+
 
     private void Awake()
     {
@@ -43,6 +45,11 @@ public class PlayerController : MonoBehaviour
         drillInteractor = GetComponent<TilemapDrillInteractor>();
         costs = drillInteractor.costs;
         worth = drillInteractor.worth;
+    }
+
+    private void Update()
+    {
+        playerCamera.transform.position = new Vector3(0, transform.position.y - 2, -10);
     }
 
     private void OnEnable()

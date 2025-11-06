@@ -26,7 +26,11 @@ public class TilemapDrillInteractor : MonoBehaviour
             }
             else
             {
-                if (playerStats.CurrentOil < costs.CostFor(t)) return;
+                //if (playerStats.CurrentOil < costs.CostFor(ResourceType.Dirt)) 
+                if (playerStats.CurrentOil < playerStats.FinalOilCost(costs.CostFor(t))) 
+                { 
+                    return;
+                }
                 playerStats.BurnOil(costs.CostFor(t));
                 playerStats.AddMoney(worth.WorthFor(t));
             }
@@ -47,12 +51,12 @@ public class DrillContext
     public Action<ResourceType, Vector3Int> onMined;
 
     private AudioSource sfx;
-    private int oil;
+    private float oil;
     private int money;
     private DrillCostsConfig costs = new();
     private DrillWorthConfig worth = new();
 
-    public DrillContext(AudioSource sfx, int startOil, DrillCostsConfig costs, DrillWorthConfig worth)
+    public DrillContext(AudioSource sfx, float startOil, DrillCostsConfig costs, DrillWorthConfig worth)
     {
         this.sfx = sfx; oil = startOil; this.costs = costs; this.worth = worth;
     }
@@ -66,14 +70,14 @@ public class DrillContext
 [Serializable]
 public class DrillCostsConfig
 {
-    public int dirt = 1;
-    public int rock = 10;
-    public int iron = 3;
-    public int gold = 6;
-    public int oilGain = 10; // Oil's positive response
+    public float dirt = 1;
+    public float rock = 10;
+    public float iron = 3;
+    public float gold = 6;
+    public float oilGain = 10; // Oil's positive response
 
     public DrillCostsConfig() { }
-    public int CostFor(ResourceType k)
+    public float CostFor(ResourceType k)
     {
         return k switch
         {
@@ -81,7 +85,7 @@ public class DrillCostsConfig
             ResourceType.Rock => rock,
             ResourceType.Iron => iron,
             ResourceType.Gold => gold,
-            ResourceType.Oil => -oilGain,// Negative values indicate refuelling.
+            //ResourceType.Oil => -oilGain,// Negative values indicate refuelling.
             _ => 1,
         };
     }
