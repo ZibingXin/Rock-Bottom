@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float moveTime = 0.1f;
     public bool autoEnterMind = true;
+    public SpriteRenderer playerSpriteRenderer;
 
     [Header("Hold Repeat")]
     public bool holdToRepeat = true;
@@ -98,6 +99,17 @@ public class PlayerController : MonoBehaviour
     private void Step(Vector3Int dir, bool fromInput)
     {
         if (isMoving) return;
+
+        if (dir == Vector3Int.right)
+        { 
+            playerSpriteRenderer.flipX = false; 
+            playerSpriteRenderer.transform.localPosition = new Vector3(0.5f, 0, 0);
+        }
+        else if (dir == Vector3Int.left)
+        {
+            playerSpriteRenderer.flipX = true; 
+            playerSpriteRenderer.transform.localPosition = new Vector3(-0.5f, 0, 0);
+        }
 
         Vector3Int target = currentCell + dir;
 

@@ -7,9 +7,6 @@ public class GamaManager : MonoBehaviour
     private GridToTilemap gridToTilemap;
     private PlayerStats playerStats;
     private ScoreManager scoreManager;
-    private TileType[,] grid;
-
-
 
     void Start()
     {
@@ -21,10 +18,10 @@ public class GamaManager : MonoBehaviour
         playerStats = FindAnyObjectByType<PlayerStats>();
         scoreManager = FindAnyObjectByType<ScoreManager>();
 
-        StartNewGame();
+        GenerateNewMap();
     }
 
-    private void StartNewGame()
+    private void GenerateNewMap()
     {
         int seed = Random.Range(0, int.MaxValue);
         mapGenerator.GenerateNow(seed);
@@ -37,9 +34,7 @@ public class GamaManager : MonoBehaviour
         playerController.Reset();
 
         // regenerate map
-        int seed = Random.Range(0, int.MaxValue);
-        mapGenerator.GenerateNow(seed);
-        gridToTilemap.Back();
+        GenerateNewMap();
 
         //reset UI
         playerStats.ResetPlayer();

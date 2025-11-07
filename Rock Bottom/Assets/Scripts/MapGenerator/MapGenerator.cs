@@ -20,7 +20,7 @@ public class Weights
 [Serializable]
 public class Stratum
 {
-    [Tooltip("Inclusive depth intervals, closed intervals. For example: 0¨C19, 20¨C39, ...")]
+    [Tooltip("Inclusive depth intervals, closed intervals. For example: 0-19, 20-39, ...")]
     public int startY = 0;
     public int endY = 19;
     public Weights weights = new Weights();
@@ -125,7 +125,7 @@ public class MapGenerator : MonoBehaviour
         return extendedGrid;
     }
 
-    // ¡ª¡ª Utility Functions ¡ª¡ª
+    // -- Utility Functions --
     Stratum FindStratumForY(List<Stratum> s, int y)
     {
         for (int i = 0; i < s.Count; i++)
