@@ -5,12 +5,13 @@ public class Upgrade : MonoBehaviour
     public PlayerStats playerStats;
     public UpgradeUI upgradeUI;
     public DrillWorthConfig drillWorthConfig;
+    public TilemapDrillInteractor drillInteractor;
 
     private int cost;
 
     private void Start()
     {
-        playerStats = PlayerStats.Instance;
+        playerStats = FindAnyObjectByType<PlayerStats>();
     }
 
     public int CalculateCost(int currentLevel)
@@ -25,7 +26,7 @@ public class Upgrade : MonoBehaviour
         {
             playerStats.UpgradeOil(); 
             playerStats.ReduceMoney(cost);
-            //upgradeUI.UpdateUpgradeUI();
+            upgradeUI.UpdateUpgradeUI();
         }
         else
         {
@@ -40,7 +41,7 @@ public class Upgrade : MonoBehaviour
         {
             playerStats.UpgradeMoveSpeed(); 
             playerStats.ReduceMoney(cost);
-            //upgradeUI.UpdateUpgradeUI();
+            upgradeUI.UpdateUpgradeUI();
         }
         else
         {
@@ -55,7 +56,7 @@ public class Upgrade : MonoBehaviour
         {
             playerStats.UpgradeDigStrength(); 
             playerStats.ReduceMoney(cost);
-            //upgradeUI.UpdateUpgradeUI();
+            upgradeUI.UpdateUpgradeUI();
         }
         else
         {
@@ -65,32 +66,22 @@ public class Upgrade : MonoBehaviour
 
     public void UpgradeDrillWorth()
     {
-        cost=CalculateCost(playerStats.DrillWorthLv);
+        cost = CalculateCost(playerStats.DrillWorthLv);
         if (playerStats.CurrentMoney >= cost)
         {
             playerStats.ReduceMoney(cost);
-            //drillWorthConfig.UpdateDrillWorth();
-            //upgradeUI.UpdateUpgradeUI();
+            drillWorthConfig.UpdateDrillWorth();
+
+            if (drillInteractor != null)
+            {
+                drillInteractor.worth = drillWorthConfig;
+            }
+
+            upgradeUI.UpdateUpgradeUI();
         }
         else
         {
             Debug.Log("Not enough money to upgrade Drill Worth.");
-        }
-    }
-
-    public int GetUpgradeCost(string upgradeType)
-    {
-        switch (upgradeType)
-        {
-            case "MaxOil":
-                return CalculateCost(playerStats.MaxOilLv);
-            case "MoveSpeed":
-                return CalculateCost(playerStats.MoveSpeedLv);
-            case "DigStrength":
-                return CalculateCost(playerStats.DigStrengthLv);
-            default:
-                Debug.LogError("Invalid upgrade type: " + upgradeType);
-                return 0;
         }
     }
 }

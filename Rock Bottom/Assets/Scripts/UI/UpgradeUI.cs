@@ -8,11 +8,13 @@ public class UpgradeUI : MonoBehaviour
     public TMP_Text maxOilLvText;
     public TMP_Text oilCostText;
 
-    public TMP_Text moveSpeedLvText;
-    public TMP_Text moveSpeedCostText;
+    public TMP_Text drillWorthLvText;
+    public TMP_Text drillWorthCostText;
 
     public TMP_Text digStrengthLvText;
     public TMP_Text digStrengthCostText;
+
+    public TMP_Text currentMoneyText;
 
     private void Start()
     {
@@ -21,11 +23,12 @@ public class UpgradeUI : MonoBehaviour
 
     public void UpdateUpgradeUI()
     {
-        maxOilLvText.text = "Max Oil: Lv. " + playerStats.MaxOilLv.ToString();
+        maxOilLvText.text = "Lv. " + playerStats.MaxOilLv.ToString();
         oilCostText.text = "Cost: $" + (50 * playerStats.MaxOilLv).ToString();
-        moveSpeedLvText.text = "Speed: Lv. " + playerStats.MoveSpeedLv.ToString();
-        moveSpeedCostText.text = "Cost: $" + (50 * playerStats.MoveSpeedLv).ToString();
-        digStrengthLvText.text = "Strength: Lv. " + playerStats.DigStrengthLv.ToString();
+        drillWorthCostText.text = "Cost: $" + (50 * playerStats.DrillWorthLv).ToString();
+        drillWorthLvText.text = "Lv. " + playerStats.DrillWorthLv.ToString();
+        digStrengthLvText.text = "Lv. " + playerStats.DigStrengthLv.ToString();
         digStrengthCostText.text = "Cost: $" + (50 * playerStats.DigStrengthLv).ToString();
+        currentMoneyText.text = "Money: $" + playerStats.CurrentMoney.ToString();
     }
 }

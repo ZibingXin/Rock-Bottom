@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
 
     //Upgrade Lv
     public TMP_Text maxOilLvText;
-    public TMP_Text moveSpeedLvText;
+    public TMP_Text drillWorthLvText;
     public TMP_Text digStrengthLvText;
 
     private void Start()
@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
     public void UpdateStatus()
     {
         maxOilLvText.text = "Max Oil: Lv. " + playerStats.MaxOilLv.ToString();
-        moveSpeedLvText.text = "Speed: Lv. " + playerStats.MoveSpeedLv.ToString();
+        drillWorthLvText.text = "Worth: Lv. " + playerStats.DrillWorthLv.ToString();
         digStrengthLvText.text = "Strength: Lv. " + playerStats.DigStrengthLv.ToString();
     }
     public void Update()

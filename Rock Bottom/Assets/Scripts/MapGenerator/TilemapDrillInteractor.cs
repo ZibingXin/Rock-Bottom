@@ -100,6 +100,8 @@ public class DrillWorthConfig
     public int gold = 20;
     public int oil = 0;
 
+    public PlayerStats playerStats;
+
     public DrillWorthConfig() { }
     public int WorthFor(ResourceType k)
     {
@@ -112,5 +114,25 @@ public class DrillWorthConfig
             ResourceType.Oil => oil,
             _ => 0,
         };
+    }
+
+    public void UpdateDrillWorth()
+    {
+        if (playerStats == null)
+        {
+            Debug.LogWarning("PlayerStats reference not set in DrillWorthConfig.");
+            return;
+        }
+
+        int level = playerStats.DrillWorthLv;
+
+        dirt = 0 + level * 10;
+        rock = 0;
+        iron = 200 + level  * 20;
+        gold = 2000 + level * 50;
+
+        oil = 0;
+        level+= 1;
+        playerStats.SetDrillWorthLv(level);
     }
 }

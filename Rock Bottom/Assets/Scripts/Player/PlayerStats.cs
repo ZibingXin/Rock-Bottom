@@ -33,6 +33,7 @@ public class PlayerStats : MonoBehaviour
     public int MoveSpeedLv { get { return moveSpeedLv; } }
     public int DigStrengthLv { get { return digStrengthLv; } }
     public int DrillWorthLv { get { return drillWorthLv; } }
+    public void SetDrillWorthLv(int value) { drillWorthLv = value; }
 
     public static PlayerStats Instance;
 

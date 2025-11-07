@@ -571,7 +571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Max Oil
+  m_text: Drill Worth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
@@ -1379,7 +1379,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 495558702}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2018648282}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: UpgradeDigStrength
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &495558702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12034,7 +12046,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Restart
+  m_text: End Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
@@ -12061,8 +12073,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12586,7 +12598,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Speed
+  m_text: Worth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
@@ -12753,7 +12765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1362583585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12849,13 +12861,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9296686d76ebfbe46ae0fddf18952c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeUI
-  playerStats: {fileID: 0}
-  maxOilLvText: {fileID: 0}
-  oilCostText: {fileID: 0}
-  moveSpeedLvText: {fileID: 0}
-  moveSpeedCostText: {fileID: 0}
-  digStrengthLvText: {fileID: 0}
-  digStrengthCostText: {fileID: 0}
+  playerStats: {fileID: 2143401590}
+  maxOilLvText: {fileID: 2126706205}
+  oilCostText: {fileID: 412733628}
+  drillWorthLvText: {fileID: 75257916}
+  drillWorthCostText: {fileID: 1654977749}
+  digStrengthLvText: {fileID: 1049298597}
+  digStrengthCostText: {fileID: 477918686}
+  currentMoneyText: {fileID: 1168237858}
 --- !u!1 &1472972567
 GameObject:
   m_ObjectHideFlags: 0
@@ -12913,7 +12926,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Max Oil
+  m_text: Strength
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 3d63246b01be4d34789c9b819cc996eb, type: 2}
@@ -13076,7 +13089,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1574872513}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2018648282}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: UpgradeDrillWorth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1574872513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13729,7 +13754,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1828866933}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2018648282}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: UpgradeMaxOil
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1828866933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13938,7 +13975,7 @@ MonoBehaviour:
   oilText: {fileID: 795556126}
   moneyText: {fileID: 144327990}
   maxOilLvText: {fileID: 486074967}
-  moveSpeedLvText: {fileID: 1183947883}
+  drillWorthLvText: {fileID: 0}
   digStrengthLvText: {fileID: 2011099961}
 --- !u!4 &2018648281
 Transform:
@@ -13969,6 +14006,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Upgrade
   playerStats: {fileID: 2143401590}
   upgradeUI: {fileID: 1362583589}
+  drillWorthConfig:
+    dirt: 0
+    rock: 0
+    iron: 200
+    gold: 1000
+    oil: 0
+    playerStats: {fileID: 2143401590}
+  drillInteractor: {fileID: 2143401594}
 --- !u!1 &2126706203
 GameObject:
   m_ObjectHideFlags: 0
@@ -14180,6 +14225,7 @@ MonoBehaviour:
     iron: 5
     gold: 20
     oil: 0
+    playerStats: {fileID: 0}
   startOil: 100
   playerCamera: {fileID: 810659546}
 --- !u!4 &2143401593
@@ -14224,6 +14270,7 @@ MonoBehaviour:
     iron: 200
     gold: 1000
     oil: 0
+    playerStats: {fileID: 2143401590}
   playerStats: {fileID: 2143401590}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
