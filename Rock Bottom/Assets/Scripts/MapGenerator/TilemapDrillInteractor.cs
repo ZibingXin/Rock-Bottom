@@ -126,13 +126,13 @@ public class DrillWorthConfig
 
         int level = playerStats.DrillWorthLv;
 
-        dirt = 0 + level * 10;
+        dirt = 0 + (level - 1) * 10;
         rock = 0;
-        iron = 200 + level  * 20;
-        gold = 2000 + level * 50;
-
+        iron = 200 + (level - 1) * 20;
+        gold = 2000 + (level - 1) * 50;
         oil = 0;
-        level+= 1;
+
         playerStats.SetDrillWorthLv(level);
+        PlayerPrefs.SetInt("DrillWorthLv", level);
     }
 }

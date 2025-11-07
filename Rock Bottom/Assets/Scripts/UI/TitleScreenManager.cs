@@ -8,6 +8,11 @@ public class TitleScreenManager : MonoBehaviour
         SceneManager.LoadScene("LevelGeneratorTest");
     }
 
+    public void ResetLevels()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     // Called when Quit button is pressed
     public void QuitGame()
     {

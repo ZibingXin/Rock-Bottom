@@ -70,6 +70,7 @@ public class Upgrade : MonoBehaviour
         if (playerStats.CurrentMoney >= cost)
         {
             playerStats.ReduceMoney(cost);
+            playerStats.SetDrillWorthLv(playerStats.DrillWorthLv + 1);
             drillWorthConfig.UpdateDrillWorth();
 
             if (drillInteractor != null)

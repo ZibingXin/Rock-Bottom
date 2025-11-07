@@ -36,6 +36,33 @@ public class PlayerStats : MonoBehaviour
     public void SetDrillWorthLv(int value) { drillWorthLv = value; }
 
     public static PlayerStats Instance;
+    public DrillWorthConfig worth;
+    public TilemapDrillInteractor drillInteractor;
+
+    private void Awake()
+    {
+        //PlayerPrefs.DeleteAll(); // For testing purposes only, remove this line in production
+
+        //Load upgrade levels
+        maxOilLv = PlayerPrefs.GetInt("MaxOilLv", 1);
+        digStrengthLv = PlayerPrefs.GetInt("DigStrengthLv", 1);
+        drillWorthLv = PlayerPrefs.GetInt("DrillWorthLv", 1);
+        currentMoney = PlayerPrefs.GetInt("CurrentMoney", 0);
+
+        //Apply upgrades based on levels
+        maxOil = 100 + (maxOilLv - 1) * 20;
+        digStrength = 1f + (digStrengthLv - 1) * 0.5f;
+
+        if (worth != null)
+        {
+            worth.playerStats = this;
+            worth.UpdateDrillWorth();
+        }
+        if (drillInteractor != null)
+        {
+            drillInteractor.worth = worth;
+        }
+    }
 
     private void Start()
     {
@@ -83,6 +110,7 @@ public class PlayerStats : MonoBehaviour
     {
         currentMoney -= amount;
         Debug.Log("Reduced money: " + amount);
+        PlayerPrefs.SetInt("CurrentMoney", currentMoney);
     }
 
     //Upgrades
@@ -91,6 +119,8 @@ public class PlayerStats : MonoBehaviour
         //Increase max oil
         maxOil += 20;
         maxOilLv += 1;
+        PlayerPrefs.SetInt("MaxOilLv", maxOilLv);
+        PlayerPrefs.SetFloat("MaxOil", maxOil);
     }
 
     public void UpgradeMoveSpeed()
@@ -105,6 +135,7 @@ public class PlayerStats : MonoBehaviour
         //Increase dig strength
         digStrength += 0.5f;
         digStrengthLv += 1;
+        PlayerPrefs.SetInt("DigStrengthLv", digStrengthLv);
     }
 
     public void GameOver()
