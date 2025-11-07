@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   sprite: {fileID: 21300000, guid: 7eff8d34152334a47b71dba6252bd0d3, type: 3}
-  oilDeltaOnMined: 0
-  scoreOnMined: 0
-  mineSfx: {fileID: 0}
+  mineSfx: {fileID: 8300000, guid: 861c8f85ac00f0544a51d5a19dfe6b5c, type: 3}
   mineVfxPrefab: {fileID: 0}
   glowPrefab: {fileID: 0}

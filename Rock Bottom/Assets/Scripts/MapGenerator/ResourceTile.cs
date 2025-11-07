@@ -46,7 +46,7 @@ public class ResourceTile : TileBase
     {
         if (IsDiggable)
         {
-            //ctx.PlayOneShot(mineSfx);
+            if (mineSfx) ctx.PlayOneShot(mineSfx);
 
             // VFX
             if (mineVfxPrefab)

@@ -11,20 +11,20 @@ public class PlayerController : MonoBehaviour
     public InputActionReference digDownAction;
     public InputActionReference digRightAction;
     public InputActionReference digLeftAction;
+    public SpriteRenderer playerSpriteRenderer;
 
     [Header("Movement")]
     public float moveTime = 0.1f;
     public bool autoEnterMind = true;
-    public SpriteRenderer playerSpriteRenderer;
 
     [Header("Hold Repeat")]
     public bool holdToRepeat = true;
-    public float initialDelay = 0.25f;
-    public float repeatRate = 0.1f;
+    private float initialDelay = 0.25f;
+    private float repeatRate = 0.1f;
 
     [Header("Drill Settings")]
-    public DrillCostsConfig costs;
-    public DrillWorthConfig worth;
+    private DrillCostsConfig costs;
+    private DrillWorthConfig worth;
     public int startOil = 100;
 
 

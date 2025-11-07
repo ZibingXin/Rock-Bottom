@@ -36,7 +36,6 @@ public class PlayerStats : MonoBehaviour
     public void SetDrillWorthLv(int value) { drillWorthLv = value; }
 
     public static PlayerStats Instance;
-    public DrillWorthConfig worth;
     public TilemapDrillInteractor drillInteractor;
 
     private void Awake()
@@ -52,16 +51,6 @@ public class PlayerStats : MonoBehaviour
         //Apply upgrades based on levels
         maxOil = 100 + (maxOilLv - 1) * 20;
         digStrength = 1f + (digStrengthLv - 1) * 0.5f;
-
-        if (worth != null)
-        {
-            worth.playerStats = this;
-            worth.UpdateDrillWorth();
-        }
-        if (drillInteractor != null)
-        {
-            drillInteractor.worth = worth;
-        }
     }
 
     private void Start()
