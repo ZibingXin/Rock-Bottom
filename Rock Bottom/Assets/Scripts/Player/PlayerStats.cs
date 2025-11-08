@@ -131,4 +131,9 @@ public class PlayerStats : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
     }
+
+    public void GameStart()
+    {
+        gameOverScreen.SetActive(false);
+    }
 }

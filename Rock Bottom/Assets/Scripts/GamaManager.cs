@@ -40,6 +40,4 @@ public class GamaManager : MonoBehaviour
         playerStats.ResetPlayer();
         scoreManager.UpdateStatus();
     }
-
-
 }
