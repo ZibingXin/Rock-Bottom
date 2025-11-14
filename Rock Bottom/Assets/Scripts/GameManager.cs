@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GamaManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private PlayerController playerController;
     private MapGenerator mapGenerator;
