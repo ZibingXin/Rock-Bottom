@@ -14,6 +14,8 @@ public class UpgradeUI : MonoBehaviour
     public TMP_Text digStrengthLvText;
     public TMP_Text digStrengthCostText;
 
+    public TMP_Text bombCostText;
+
     public TMP_Text currentMoneyText;
 
     private void Start()
@@ -30,5 +32,7 @@ public class UpgradeUI : MonoBehaviour
         digStrengthLvText.text = "Lv. " + playerStats.DigStrengthLv.ToString();
         digStrengthCostText.text = "Cost: $" + (50 * playerStats.DigStrengthLv).ToString();
         currentMoneyText.text = "Money: $" + playerStats.CurrentMoney.ToString();
+        bombCostText.text = "Cost: $" + 200.ToString();
+
     }
 }

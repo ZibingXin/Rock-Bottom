@@ -6,6 +6,7 @@ public class Upgrade : MonoBehaviour
     public UpgradeUI upgradeUI;
     public DrillWorthConfig drillWorthConfig;
     public TilemapDrillInteractor drillInteractor;
+    public TileHoverHighlighter tileHoverHighlighter;
 
     private int cost;
 
@@ -83,6 +84,28 @@ public class Upgrade : MonoBehaviour
         else
         {
             Debug.Log("Not enough money to upgrade Drill Worth.");
+        }
+    }
+
+    public void RefillBomb()
+    {
+        if (tileHoverHighlighter.bombCount < 3)
+        {
+            cost = 200;
+            if (playerStats.CurrentMoney >= cost)
+            {
+                playerStats.ReduceMoney(cost);
+                tileHoverHighlighter.bombCount = 3;
+                upgradeUI.UpdateUpgradeUI();
+            }
+            else
+            {
+                Debug.Log("Not enough money to refill bomb.");
+            }
+        }
+        else
+        {
+            Debug.Log("Bomb count is already full.");
         }
     }
 }
