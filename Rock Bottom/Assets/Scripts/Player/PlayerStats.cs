@@ -87,6 +87,10 @@ public class PlayerStats : MonoBehaviour
     public void RefillOil(float amount)
     {
         currentOil += amount;
+        if(currentOil > maxOil)
+        {
+            currentOil = maxOil;
+        }
         Debug.Log("Oil refilled. Current oil: " + currentOil);
     }
 
