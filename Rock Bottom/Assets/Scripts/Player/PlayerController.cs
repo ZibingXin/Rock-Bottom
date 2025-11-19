@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [Header("Drill Settings")]
     private DrillCostsConfig costs;
     private DrillWorthConfig worth;
-    public int startOil = 100;
+    //public int startOil = 100;
 
 
     private Vector3Int currentCell;
@@ -116,11 +116,12 @@ public class PlayerController : MonoBehaviour
         var tile = tilemap.GetTile(target);
         if (tile is ResourceTile resourceTile && resourceTile.IsDiggable)
         {
-            Debug.Log($"{costs.CostFor(resourceTile.type)}");
+            float finalCost = playerStats.FinalOilCost(costs.CostFor(resourceTile.type));
+            Debug.Log($"{resourceTile.type} : {costs.CostFor(resourceTile.type)} -> Final Cost: {finalCost}");
 
-            if (playerStats.CurrentOil < costs.CostFor(resourceTile.type) && resourceTile.type != ResourceType.Oil)
+            if (playerStats.CurrentOil < finalCost && resourceTile.type != ResourceType.Oil)
             {
-                Debug.Log($"Not enough oil to dig! {playerStats.CurrentOil} < {costs.CostFor(resourceTile.type)}");
+                Debug.Log($"Not enough oil to dig! {playerStats.CurrentOil} < {finalCost}");
                 return;
             }
             resourceTile.HandleDig(target, tilemap, drillInteractor.GetContext());
