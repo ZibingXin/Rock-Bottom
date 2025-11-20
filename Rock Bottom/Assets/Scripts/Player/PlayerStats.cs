@@ -143,8 +143,14 @@ public class PlayerStats : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void QuitGame()
+    public void BackToMenu()
     {
-        Application.Quit();
+        SceneManager.LoadScene("TitleScreen");
+    }
+
+    public void NewGame()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

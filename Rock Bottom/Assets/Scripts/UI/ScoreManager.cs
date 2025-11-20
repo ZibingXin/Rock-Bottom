@@ -22,8 +22,8 @@ public class ScoreManager : MonoBehaviour
 
     public void UpdateStatus()
     {
-        maxOilLvText.text = "Max Oil: Lv. " + playerStats.MaxOilLv.ToString();
-        drillWorthLvText.text = "Worth: Lv. " + playerStats.DrillWorthLv.ToString();
+        maxOilLvText.text = "Fuel Tank: Lv. " + playerStats.MaxOilLv.ToString();
+        drillWorthLvText.text = "Refinement: Lv. " + playerStats.DrillWorthLv.ToString();
         digStrengthLvText.text = "Strength: Lv. " + playerStats.DigStrengthLv.ToString();
     }
     public void Update()
