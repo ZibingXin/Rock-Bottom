@@ -18,7 +18,7 @@ public class ResourceTile : TileBase
 {
     [Header("Appearance and Data")]
     public ResourceType type;
-    public bool IsDiggable => type != ResourceType.Rock;
+    public bool IsDiggable => type != ResourceType.Rock || type != ResourceType.Bedrock;
     public Sprite sprite;
 
     //[Header("Resource Effect")]
