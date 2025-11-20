@@ -1,1 +1,1 @@
-public enum ResourceType { Dirt, Rock, Iron, Gold, Oil }
+public enum ResourceType { Dirt, Rock, Iron, Gold, Oil, Bedrock}

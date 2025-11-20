@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public enum TileType { Dirt, Rock, Iron, Gold, Oil }
+public enum TileType { Dirt, Rock, Iron, Gold, Oil, Bedrock, Null}
 
 [Serializable]
 public class Weights
@@ -62,7 +62,9 @@ public class MapGenerator : MonoBehaviour
 
     // Generate result (row-major: y rows, x columns)
     private TileType[,] grid;
+    private TileType[,] extendedGrid;
     public TileType[,] Grid => grid; // For reading by other systems
+    public TileType[,] ExtendedGrid => extendedGrid;
 
     System.Random rng;
 
@@ -77,9 +79,14 @@ public class MapGenerator : MonoBehaviour
         if (strata == null || strata.Count == 0)
             strata = BuildDefaultStrata();
     }
+    [ContextMenu("Random Seed")]
+    public void RandomSeed()
+    {
+        seed = UnityEngine.Random.Range(0, int.MaxValue);
+    }
 
     [ContextMenu("Generate Now")]
-    public void GenerateNow(int seed = 12345)
+    public void GenerateNow()
     {
         grid = Generate(seed, strata, width, height);
     }
@@ -113,14 +120,26 @@ public class MapGenerator : MonoBehaviour
             EnsureEachRowHasNonRock();
 
         // 4) Add two columns of rock on the left and right as boundaries
-        var extendedGrid = new TileType[w + 2, h];
-        for (int y = 0; y < h; y++)
+        extendedGrid = new TileType[w + 2, h + 15];
+        for (int y = 0; y < h + 15; y++)
         {
-            extendedGrid[0, y] = TileType.Rock;
-            extendedGrid[w + 1, y] = TileType.Rock;
+            extendedGrid[0, y] = TileType.Bedrock;
+            extendedGrid[w + 1, y] = TileType.Bedrock;
             for (int x = 0; x < w; x++)
-                extendedGrid[x + 1, y] = grid[x, y];
+            {
+                if (y >= 0 && y < h) extendedGrid[x + 1, y + 5] = grid[x, y];
+                if (y == h + 14) extendedGrid[x + 1, y] = TileType.Bedrock;
+            }
         }
+
+        // 5) Erase first 5 rows of dirt and last 10 rows of dirt for easier starting and ending
+        for (int y = 0; y < 5; y++)
+            for (int x = 1; x < w + 1; x++)
+                extendedGrid[x, y] = TileType.Null;
+        for (int y = h + 5; y < h + 14; y++)
+            for (int x = 1; x < w + 1; x++)
+                extendedGrid[x, y] = TileType.Null;
+
 
         return extendedGrid;
     }

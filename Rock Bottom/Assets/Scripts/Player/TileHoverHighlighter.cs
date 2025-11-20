@@ -40,8 +40,9 @@ public class TileHoverHighlighter : MonoBehaviour
         Vector3Int cell = tilemap.WorldToCell(mouseWorld);
 
         TileBase t = tilemap.GetTile(cell);
-        if (t is ResourceTile)
+        if (t is ResourceTile rT)
         {
+            if (rT.type == ResourceType.Bedrock) return;
             if (hoveredCell == null || hoveredCell.Value != cell)
             {
                 ClearHighlight();
