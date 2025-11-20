@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour
 
     private void GenerateNewMap()
     {
-        int seed = Random.Range(0, int.MaxValue);
-        mapGenerator.GenerateNow(seed);
+        //int seed = Random.Range(0, int.MaxValue);
+        mapGenerator.RandomSeed();
+        mapGenerator.GenerateNow();
         gridToTilemap.Back();
     }
 

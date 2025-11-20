@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
         if (isMoving) return;
 
         if (dir == Vector3Int.right)
-        { 
+        {
             playerSpriteRenderer.flipX = false; 
             playerSpriteRenderer.transform.localPosition = new Vector3(0.5f, 0, 0);
         }

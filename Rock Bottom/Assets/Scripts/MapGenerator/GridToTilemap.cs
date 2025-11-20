@@ -5,7 +5,7 @@ public class GridToTilemap : MonoBehaviour
 {
     public MapGenerator mapGenerator;
     public Tilemap tilemap;
-    public TileBase dirt, rock, iron, gold, oil;
+    public TileBase dirt, rock, iron, gold, oil, bedrock;
     public Vector3Int origin = Vector3Int.zero;
 
     [ContextMenu("Convert Grid to Tilemap")]
@@ -41,6 +41,7 @@ public class GridToTilemap : MonoBehaviour
             TileType.Iron => iron,
             TileType.Gold => gold,
             TileType.Oil => oil,
+            TileType.Bedrock => bedrock,
             _ => null,
         };
     }

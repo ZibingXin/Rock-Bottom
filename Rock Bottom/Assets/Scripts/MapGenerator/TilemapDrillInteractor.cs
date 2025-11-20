@@ -20,6 +20,10 @@ public class TilemapDrillInteractor : MonoBehaviour
         ctx = new DrillContext(sfx, playerStats.CurrentOil, costs, worth);
         ctx.onMined += (t, c) =>
         {
+            if (t == ResourceType.Bedrock)
+            {
+                return; // Cannot mine bedrock
+            }
             if (t == ResourceType.Oil)
             {
                 playerStats.RefillOil(costs.oilGain);
@@ -75,6 +79,7 @@ public class DrillCostsConfig
     public float iron = 3;
     public float gold = 6;
     public float oilGain = 10; // Oil's positive response
+    public float bedrock = 999;
 
     public DrillCostsConfig() { }
     public float CostFor(ResourceType k)
@@ -85,6 +90,7 @@ public class DrillCostsConfig
             ResourceType.Rock => rock,
             ResourceType.Iron => iron,
             ResourceType.Gold => gold,
+            ResourceType.Bedrock => bedrock,
             //ResourceType.Oil => -oilGain,// Negative values indicate refuelling.
             _ => 1,
         };
@@ -99,6 +105,7 @@ public class DrillWorthConfig
     public int iron = 5;
     public int gold = 20;
     public int oil = 0;
+    public int bedrock = 0;
 
     public PlayerStats playerStats;
 
@@ -112,6 +119,7 @@ public class DrillWorthConfig
             ResourceType.Iron => iron,
             ResourceType.Gold => gold,
             ResourceType.Oil => oil,
+            ResourceType.Bedrock => bedrock,
             _ => 0,
         };
     }
