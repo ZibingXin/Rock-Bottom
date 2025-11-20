@@ -50,7 +50,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y > -102)
         playerCamera.transform.position = new Vector3(0, transform.position.y - 2, -10);
+
+        HandleFallingDown();
+        WinCheck();
     }
 
     private void OnEnable()
@@ -95,6 +99,24 @@ public class PlayerController : MonoBehaviour
     void OnDigRightPerformed(InputAction.CallbackContext context) => Step(Vector3Int.right, true);
     void OnDigLeftPerformed(InputAction.CallbackContext context) => Step(Vector3Int.left, true);
     void OnActionCanceled(InputAction.CallbackContext context) => StopRepeat();
+
+    private void HandleFallingDown()
+    {
+        Vector3Int belowCell = currentCell + Vector3Int.down;
+        var tileBelow = tilemap.GetTile(belowCell);
+        if (tileBelow == null)
+        {
+            StartCoroutine(MoveToCell(belowCell));
+        }
+    }
+
+    private void WinCheck()
+    {
+        if (currentCell.y <= -105)
+        {
+            GameManager.Instance.Win();
+        }
+    }
 
     private void Step(Vector3Int dir, bool fromInput)
     {
