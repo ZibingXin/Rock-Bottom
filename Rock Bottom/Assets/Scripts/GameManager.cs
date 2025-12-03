@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
         //reset UI
         playerStats.ResetPlayer();
         scoreManager.UpdateStatus();
+        winScreen.SetActive(false);
     }
 
     public void Win()
