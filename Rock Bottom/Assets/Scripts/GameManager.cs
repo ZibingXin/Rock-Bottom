@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private PlayerStats playerStats;
     private ScoreManager scoreManager;
 
+    public GameObject winScreen;
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -56,11 +58,13 @@ public class GameManager : MonoBehaviour
         //reset UI
         playerStats.ResetPlayer();
         scoreManager.UpdateStatus();
+        winScreen.SetActive(false);
     }
 
     public void Win()
     {
         Debug.Log("Win");
         // Show win screen or perform win actions
+        winScreen.SetActive(true);
     }
 }
