@@ -693,6 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f62b768ac9c7042989a520fcf64c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winScreen: {fileID: 114458397}
 --- !u!4 &116230869
 Transform:
   m_ObjectHideFlags: 0
@@ -1429,7 +1430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -750, y: -453.27023}
+  m_AnchoredPosition: {x: -750, y: -423}
   m_SizeDelta: {x: 238.5435, y: 81.4595}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &264592770
@@ -13113,7 +13114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -750, y: -334.4}
+  m_AnchoredPosition: {x: -750, y: -308}
   m_SizeDelta: {x: 238.5435, y: 81.4595}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &621779951
@@ -15230,7 +15231,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3.71
 --- !u!222 &1188491452
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16335,8 +16336,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 211.59, y: -547.0407}
-  m_SizeDelta: {x: 429.17, y: 1100.0814}
+  m_AnchoredPosition: {x: 211.59, y: -538.5}
+  m_SizeDelta: {x: 429.17, y: 1083}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1760733641
 MonoBehaviour:
@@ -16367,7 +16368,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.5
 --- !u!222 &1760733642
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17292,8 +17293,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 209, y: -547.0407}
-  m_SizeDelta: {x: 429.17, y: 1100.0814}
+  m_AnchoredPosition: {x: 209, y: -538.5}
+  m_SizeDelta: {x: 429.17, y: 1083}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1988914928
 MonoBehaviour:
@@ -17324,7 +17325,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.5
 --- !u!222 &1988914929
 CanvasRenderer:
   m_ObjectHideFlags: 0
