@@ -13163,7 +13163,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2143401595}
         m_TargetAssemblyTypeName: TileHoverHighlighter, Assembly-CSharp
-        m_MethodName: SetHoverEnabled
+        m_MethodName: SwitchHover
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18098,6 +18098,7 @@ MonoBehaviour:
   bombCount: 0
   bombCountText: {fileID: 10942058}
   enableHover: 0
+  buttonText: {fileID: 544804157}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

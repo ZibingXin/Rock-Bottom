@@ -16,6 +16,8 @@ public class TileHoverHighlighter : MonoBehaviour
     public TextMeshProUGUI bombCountText;
     public bool enableHover = false;
 
+    public TextMeshProUGUI buttonText;
+
     Vector3Int? hoveredCell = null;
 
     void Awake()
@@ -26,6 +28,7 @@ public class TileHoverHighlighter : MonoBehaviour
     private void Start()
     {
         bombCount = 3;
+        buttonText.text = "Use Bomb";
     }
     void Update()
     {
@@ -54,11 +57,17 @@ public class TileHoverHighlighter : MonoBehaviour
             {
                 tilemap.SetTile(cell, null);
                 bombCount--;
-                SetHoverEnabled(false);
+                SwitchHover(false);
             }
         }
         else
         {
+            ClearHighlight();
+        }
+
+        if (Input.GetMouseButtonDown(1) && enableHover)
+        {
+            SwitchHover(false);
             ClearHighlight();
         }
     }
@@ -73,10 +82,24 @@ public class TileHoverHighlighter : MonoBehaviour
     }
 
 
-    public void SetHoverEnabled(bool v)
+    public void SwitchHover(bool v)
     {
-        if (v == true && bombCount <= 0) return;
-        enableHover = v;
-        if (!v) ClearHighlight();
+        if (v && bombCount <= 0) 
+        {
+            return; 
+        }
+        if (!v || (v && enableHover))
+        {
+            ClearHighlight();
+            buttonText.text = "Use Bomb";
+            enableHover = false;
+            return;
+        }
+
+        if (v)
+        {
+            enableHover = v;
+            buttonText.text = "Cancel"; 
+        }
     }
 }
