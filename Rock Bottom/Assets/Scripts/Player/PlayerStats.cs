@@ -134,6 +134,7 @@ public class PlayerStats : MonoBehaviour
     public void GameOver()
     {
         gameOverScreen.SetActive(true);
+        ReduceMoney(0); // Save current money
     }
 
     public void GameStart()

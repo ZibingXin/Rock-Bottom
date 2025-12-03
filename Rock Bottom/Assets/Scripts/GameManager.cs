@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
         scoreManager = FindAnyObjectByType<ScoreManager>();
 
         GenerateNewMap();
+
+        if (winScreen == null)
+            winScreen = GameObject.Find("Win");
     }
 
     private void GenerateNewMap()
