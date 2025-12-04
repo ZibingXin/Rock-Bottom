@@ -140,7 +140,7 @@ public class PlayerStats : MonoBehaviour
     public void GameStart()
     {
         gameOverScreen.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void BackToMenu()
