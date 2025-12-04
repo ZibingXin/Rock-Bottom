@@ -15809,11 +15809,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeUI
   playerStats: {fileID: 2143401590}
-  maxOilLvText: {fileID: 2126706205}
+  maxOilLvText: {fileID: 1769877729}
   oilCostText: {fileID: 412733628}
-  drillWorthLvText: {fileID: 75257916}
+  drillWorthLvText: {fileID: 589309152}
   drillWorthCostText: {fileID: 1654977749}
-  digStrengthLvText: {fileID: 1049298597}
+  digStrengthLvText: {fileID: 624545027}
   digStrengthCostText: {fileID: 477918686}
   bombCostText: {fileID: 2092917239}
   currentMoneyText: {fileID: 1168237858}
