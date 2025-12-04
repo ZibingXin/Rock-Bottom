@@ -46,7 +46,7 @@ public class PlayerStats : MonoBehaviour
         maxOilLv = PlayerPrefs.GetInt("MaxOilLv", 1);
         digStrengthLv = PlayerPrefs.GetInt("DigStrengthLv", 1);
         drillWorthLv = PlayerPrefs.GetInt("DrillWorthLv", 1);
-        currentMoney = PlayerPrefs.GetInt("CurrentMoney", 1);
+        currentMoney = PlayerPrefs.GetInt("CurrentMoney", 0);
 
         //Apply upgrades based on levels
         maxOil = 100 + (maxOilLv - 1) * 20;
